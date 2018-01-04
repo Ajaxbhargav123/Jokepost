@@ -1,0 +1,77 @@
+﻿@model FunTour.Models.Posts
+@{
+    ViewBag.Title = "JokePost";
+}
+
+<h2>JokePost</h2>
+<form method="post" id="post">
+    <div class="row">
+        <div class="col-lg-6">
+            @Html.TextBoxFor(t=>t.title, new { @id = "text", @class = "form-control" })
+            @Html.ValidationMessageFor(v=>v.title)
+            <br />
+          @Html.TextAreaFor(t => t.Post, new { @id="text1", @class="form-control"})
+            @Html.ValidationMessageFor(t=>t.Post)
+            <br /><br />
+            <button id="button" type="submit" class="btn btn-danger">Post</button>
+        </div>
+    </div>
+  
+</form>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+           $('#button').on('click', function (e) {
+               var txtValue = $('#text1').val();
+               var txtVal = $('#text').val();
+               if (txtVal == "" || txtValue == "" || txtVal.) {
+                   bootbox.alert("Post should not be empty");
+                   e.preventDefault();
+               } else {
+                   function myFunction() {
+                       setTimeout(function () {
+                           $('#text').empty();
+                       }, 3000);
+                   }
+               }
+           //     $.ajax({
+           //         url: "/Post/JokePost",
+           //         type: "post",
+           //         dataType: "text"
+           
+           //     }).done(function () {
+           //         $('#text').empty();
+           //         console.log("pass");
+           //         }).fail(function () {
+           //             console.log("fail");
+           //         })
+          })
+
+           //$('#post').submit(function (e) {
+           //    if (txtVal=="") {
+           //        e.preventDefault();
+        
+            //    setTimeout(function () {
+            //        $('#text').empty();
+            //    },3000)
+               
+            //    vm = $('.form-control').val();
+            //    $.ajax({
+            //        url: "/Post/JokePost",
+            //        type: "post",
+            //        dataType: "text",
+            //        data: vm
+
+            //    }).done(function () {
+
+            //        console.log(all);
+            //    }).fail(function () {
+            //        console.log("fail");
+            //    })
+           // })
+        })
+    </script>
+
+    }
+

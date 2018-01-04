@@ -1,0 +1,110 @@
+﻿@model List<FunTour.Models.Posts>
+
+@{
+    ViewBag.Title = "Mypost";
+}
+
+<div class="container">
+    <h2>My Jokes</h2>
+    <div id="posts" class="row">
+        @foreach (var m in Model)
+        {
+            if (m.Id % 2 == 0 && m.email == User.Identity.Name)
+            {
+                <div class="col-6">
+                    <div class="card border-primary mb-3" style="max-width: 20rem;">
+                        <div class="card-header">@m.title</div>
+                        <div class="card-body text-primary">
+                            <p class="card-text">@m.Post</p>
+                        </div>
+                        <h6 class="text-right text-info">~@m.email</h6>
+                    </div>
+                    <button data-post-id="@m.Id" class="btn btn-default  js-laugh">Laugh</button>
+                   
+                        <button data-post-id="@m.Id" class="btn btn-danger js-delete">Delete</button>
+                </div>
+
+            }
+            else
+            {
+                if (m.email == User.Identity.Name)
+                {
+                <div class="col-6">
+                    <div class="card border-primary mb-3" style="max-width: 20rem;">
+                        <div class="card-header">@m.title</div>
+                        <div class="card-body text-primary">
+                           
+                            <p class="card-text">@m.Post</p>
+                        </div>
+                        <h6 class="text-right text-info">~@m.email</h6>
+                    </div>
+                    <button data-post-id="@m.Id" class="btn btn-default  js-laugh">Laugh</button>
+                    @if (m.email == User.Identity.Name)
+                    {
+                        <button data-post-id="@m.Id" class="btn btn-danger js-delete">Delete</button>
+                    }
+                    <br />
+                    <br />
+                </div>
+
+                }
+            }
+        }
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#posts").on("click", ".js-delete", function () {
+                var button = $(this);
+
+                if (confirm("Are You Sure? To Delete This Joke")) {
+                    $.ajax({
+                        url: "/api/post/" + button.attr("data-post-id"),
+                        method: "DELETE",
+                        success: function () {
+                            button.parent("div").remove();
+                        }
+                    })
+                }
+
+                //bootbox.confirm("Are You Sure ?", function (result) {
+                //    if (result) {
+                //        $.ajax({
+                //            url: "/api/post/" + button.attr("data-post-id"),
+                //            method: "DELETE",
+                //            success: function () {
+                //                button.parents("ul").remove();
+                //            }
+                //        })
+                //    }
+                //})
+
+            });
+
+            // Laugh Button Action
+
+            $("#posts").on("click", ".js-laugh", function () {
+
+                var laugh = function (value) {
+
+                }
+
+                var button = $(this);
+                if (button.hasClass("btn-default")) {
+                    button.addClass("btn-warning");
+                    button.removeClass("btn-default");
+
+
+                } else {
+                    button.removeClass("btn-warning");
+                    button.addClass("btn-default");
+                }
+
+            })
+        });
+    </script>
+}
+
